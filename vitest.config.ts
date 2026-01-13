@@ -4,7 +4,25 @@ import react from '@vitejs/plugin-react'
 const config = defineConfig({
     plugins: [react()],
     test: {
-        environment: 'jsdom'
+        globals: true,
+        setupFiles: './vitest.setup.ts',
+        environment: 'jsdom',
+        coverage: {
+            provider: 'v8',
+            reporter: ['text', 'html', 'json'],
+            include: ['app/**/*.{ts,tsx,js,jsx}'],
+            exclude: [
+                '**/__tests__/**',
+                '**/*.test.*',
+                '**/*.spec.*'
+            ],
+            thresholds: {
+                statements: 80,
+                lines: 80,
+                functions: 80,
+                branches: 80
+            }
+        }
     }
 })
 
