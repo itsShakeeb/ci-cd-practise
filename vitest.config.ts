@@ -4,6 +4,8 @@ import react from '@vitejs/plugin-react'
 const config = defineConfig({
     plugins: [react()],
     test: {
+        globals: true,
+        setupFiles: './vitest.setup.ts',
         environment: 'jsdom',
         coverage: {
             provider: 'v8',
