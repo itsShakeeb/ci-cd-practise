@@ -1,0 +1,43 @@
+name: CI Level 2
+
+on:
+    pull_request:
+        paths-ignore:
+            - 'Readme.md'
+            - 'docs/**'
+            - '*.md'
+
+concurrency:
+    group: ci-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node: [20, 22]
+        steps:
+          - uses: actions/checkout@v4
+
+          - uses: actions/node@v4
+            with:
+              node-version: ${{ matrix.node }}
+              cache: npm
+
+          - run: npm ci
+          - run: npm run lint
+          - run: npm run test
+          - run: npm run coverage
+          - name: Upload Coverage Artifacts
+            uses: actions/upload-artifact@v4
+            with:
+                name: coverage-${{ matrix.node }}
+                path: coverage/
+
+          - name: Comment Coverage
+            if: matrix.node == 20
+            uses: removes/coverage-report-action@v2
+            with:
+                coverage-file: coverage/lcov.info
+
