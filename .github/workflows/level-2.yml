@@ -29,15 +29,24 @@ jobs:
           - run: npm run lint
           - run: npm run test
           - run: npm run coverage
+
           - name: Upload Coverage Artifacts
             uses: actions/upload-artifact@v4
             with:
                 name: coverage-${{ matrix.node }}
                 path: coverage/
 
-          - name: Comment Coverage
-            if: matrix.node == 20
-            uses: romeovs/coverage-report-action@v2
+          - name: Generate Coverage Summary
+            uses: irongut/CodeCoverageSummary@v1.3.0
             with:
-                coverage-file: coverage/lcov.info
+                filename: coverage/lcov.info
+                badge: true
+                format: markdown
+                output: both
+            
+          - name: Post Coverage Comment
+            uses: marocchino/sticky-pull-request-comment@v2
+            with:
+                recreate: true
+                path: code-coverage-results.md
 
