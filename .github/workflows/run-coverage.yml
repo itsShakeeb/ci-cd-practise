@@ -1,17 +1,23 @@
-name: Run coverage on PR
-on:
-    pull_request
+name: Run coverage on PR #<workflow_name>
+on: # When the workflow should run
+    pull_request # <trigger> such as push, pull_request, workflow_dispatch, schedule etc
 
 jobs: 
-    build-and-run-coverage:
-        runs-on: ubuntu-latest
+    build-and-run-coverage: #<job_name>
+        runs-on: ubuntu-latest # <runner_type> Define the machine type most popular is ubuntu
 
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+        steps: # Steps are two type either use an action or run a command
+            - name: Checkout Code # <step>
+              uses: actions/checkout@v4 # <step>
+            
+            - name: Node Setup
+              uses: actions/setup-node@v4
+              with:
+                node-version: 22.17
+                cache: npm
 
             - name: Install dependencies
-              run: npm i
+              run: npm ci # or npm i (npm ci is better that npm i in CI its strictly follows package-lock.json)
             
             - name: Build Code
               run: npm run build
