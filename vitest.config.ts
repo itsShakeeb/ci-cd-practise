@@ -9,7 +9,7 @@ const config = defineConfig({
         environment: 'jsdom',
         coverage: {
             provider: 'v8',
-            reporter: ['text', 'html', 'json','lcov'],
+            reporter: ['text', 'html', 'lcov'],
             include: ['app/**/*.{ts,tsx,js,jsx}'],
             exclude: [
                 '**/__tests__/**',
