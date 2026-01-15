@@ -37,7 +37,7 @@ jobs:
 
           - name: Comment Coverage
             if: matrix.node == 20
-            uses: removes/coverage-report-action@v2
+            uses: romeovs/coverage-report-action@v2
             with:
                 coverage-file: coverage/lcov.info
 
